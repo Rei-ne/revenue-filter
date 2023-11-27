@@ -1,0 +1,20 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+@font-face {
+  font-family: "Degular";
+  src: url("./assets/fonts/Degular/Degular.woff") format("woff");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "DegularBold";
+  src: url("./assets/fonts/Degular/DegularDemo-Bold.woff") format("woff");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "DegularThin";
+  src: url("./assets/fonts/Degular/DegularDemo-Thin.woff") format("woff");
+  font-weight: light;
+}
