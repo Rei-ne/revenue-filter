@@ -49,32 +49,64 @@ const NavBar = () => {
     return {};
   };
   return (
-    <div className="text-black h-48 md:h-16 flex flex-col md:flex-row justify-evenly md:justify-between items-center w-full border rounded-full">
-      {/* Navbar content */}
-      <img src={logo} alt="mainstack-logo" className="px-5" />
-      <ul className="flex space-x-4 pr-8">
-        {NavItems.map((navItem) => (
-          <li
-            key={navItem.id}
-            className="flex p-3 items-center gap-1 text-sm"
-            style={getNavItemStyles(navItem.id)}
-          >
-            <img src={navItem.iconImg} alt={navItem.title}></img>{" "}
-            {navItem.title}
-          </li>
-        ))}
-      </ul>
-      <div className="flex items-center justify-between w-fit gap-4">
-        <img src={bell} alt="bell-icon" />
-        <img src={chat} alt="chat-icon" />
-        <div className="flex bg-gray-100 rounded-full mx-3 items-center justify-center p-0.5 ">
-          <p className="text-xs text-center bg-black rounded-full p-2 text-white m-1 ">
-            OJ
-          </p>
-          <img className="h-6 w-6 mr-2 m-1" src={menu} alt="menu-icon" />
+    <nav>
+      {/* desktop nav */}
+
+      <div className="text-black hidden md:h-16 md:flex md:flex-row justify-evenly md:justify-between items-center w-full border rounded-full">
+        {/* Navbar content */}
+        <img src={logo} alt="mainstack-logo" className="px-5" />
+        <ul className="flex space-x-4 pr-8">
+          {NavItems.map((navItem) => (
+            <li
+              key={navItem.id}
+              className="flex p-3 items-center gap-1 text-sm"
+              style={getNavItemStyles(navItem.id)}
+            >
+              <img src={navItem.iconImg} alt={navItem.title}></img>{" "}
+              {navItem.title}
+            </li>
+          ))}
+        </ul>
+        <div className="flex items-center justify-between w-fit gap-4">
+          <img src={bell} alt="bell-icon" />
+          <img src={chat} alt="chat-icon" />
+          <div className="flex bg-gray-100 rounded-full mx-3 items-center justify-center p-0.5 ">
+            <p className="text-xs text-center bg-black rounded-full p-2 text-white m-1 ">
+              OJ
+            </p>
+            <img className="h-6 w-6 mr-2 m-1" src={menu} alt="menu-icon" />
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* mobile nav */}
+      <div className="text-black h-52 md:hidden flex flex-col md:flex-row  justify-evenly md:justify-between items-center w-screen border rounded-full">
+        {/* Navbar content */}
+        <img src={logo} alt="mainstack-logo" className="px-5" />
+        <ul className="flex space-x-4 pr-4 flex-wrap items-center justify-center">
+          {NavItems.map((navItem) => (
+            <li
+              key={navItem.id}
+              className="flex p-1 items-center gap-1 text-sm"
+              style={getNavItemStyles(navItem.id)}
+            >
+              <img src={navItem.iconImg} alt={navItem.title}></img>{" "}
+              {navItem.title}
+            </li>
+          ))}
+        </ul>
+        <div className="flex items-center justify-center w-fit gap-4">
+          <img src={bell} alt="bell-icon" />
+          <img src={chat} alt="chat-icon" />
+          <div className="flex bg-gray-100 rounded-full mx-3 items-center justify-center p-0.5 ">
+            <p className="text-xs text-center bg-black rounded-full p-2 text-white m-1 ">
+              OJ
+            </p>
+            <img className="h-6 w-6 mr-2 m-1" src={menu} alt="menu-icon" />
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 };
 
