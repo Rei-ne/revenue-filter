@@ -11,7 +11,7 @@
 @font-face {
   font-family: "DegularBold";
   src: url("./assets/fonts/Degular/DegularDemo-Bold.woff") format("woff");
-  font-weight: normal;
+  font-weight: bold;
 }
 @font-face {
   font-family: "DegularThin";
