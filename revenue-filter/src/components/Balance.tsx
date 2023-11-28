@@ -6,20 +6,20 @@ const BalanceList: React.FC<{ balancesData: BalanceItem[] }> = ({
   balancesData,
 }) => {
   const filteredBalances = balancesData.slice(1);
-
+  // list of balances
   return (
-    <div className="w-[300px] absolute right-12 mr-6 h-[400px] border-black mt-3">
+    <div className="w-3/5 md:w-1/5 md:absolute md:right-10 md:mr-6 h-fit md:h-[360px] mt-3 flex items-center justify-center flex-col py-6">
       {filteredBalances.length > 0 ? (
         filteredBalances.map((balance, id) => (
           <div
             key={id}
-            className="flex items-center justify-between p-4 relative"
+            className="flex items-center justify-between py-4 relative w-full"
           >
             <div className="text-left py-1">
-              <p className="text-sm font-Degular font-normal">
+              <p className="text-xs md:text-sm font-Degular font-normal">
                 {balance.title}
               </p>
-              <p className="text-2xl font-DegularBold">
+              <p className="text-lg md:text-2xl font-DegularBold">
                 USD {balance.amount.toFixed(2)}
               </p>
             </div>
@@ -46,7 +46,6 @@ const Balance = () => {
       try {
         const response = await apiClient.get("/wallet");
         const responseData = response.data;
-        console.log(responseData);
 
         // Mapping response data to custom titles and ids
         const mappedBalances: BalanceItem[] = [
@@ -67,24 +66,32 @@ const Balance = () => {
   }, []);
 
   return (
-    <section className="flex h-[400px] mt-6 relative">
-      <div className="p-8  w-1/2 h-1/2 relative flex flex-col items-start ">
-        <p className="text-sm font-DegularThin">Available Balance</p>
-        <div className="w-1/2 h-16 flex absolute right-0 items-center justify-start mr-2">
-          <button className=" bg-black w-1/2 rounded-full px-8 py-4 text-xs text-white ">
-            Withdraw
-          </button>
+    <section className="flex flex-col md:flex-row h-[400px] mt-6 md:mt-2 relative w-full">
+      <div className="p-8 w-full md:w-1/2 lg:w-3/5 md:h-1/2 relative flex flex-col items-center md:items-start">
+        <div className="flex flex-col items-center text-left justify-center md:h-full w-full md:pl-4  md:ml-20 md:flex-row md:items-start ">
+          <div>
+            <p className="text-sm font-DegularThin ">Available Balance</p>
+            {balance ? (
+              <h2 className="DegularBold text-xl md:text-2xl  font-extrabold">
+                USD {balance}
+              </h2>
+            ) : (
+              <p> Loading</p>
+            )}
+          </div>
+          <div className="w-full md:w-1/2 lg:w-1/2 h-16 flex  items-center justify-center  mr-2">
+            <button className="bg-black w-fit rounded-full px-6 md:px-8 py-4 text-xs text-white ">
+              Withdraw
+            </button>
+          </div>
         </div>
-        {balance ? (
-          <h2 className="DegularBold text-3xl font-extrabold">USD {balance}</h2>
-        ) : (
-          <p> Loading</p>
-        )}
       </div>
-      <div className="h-[300px] border w-[750px] absolute bottom-0">
+      <div className="md:h-1/2 border w-full md:w-2/3 md:absolute md:bottom-0 ">
         <h2>CHART</h2>
       </div>
-      <BalanceList balancesData={balancesData} />
+      <div className="w-full flex items-center justify-center">
+        <BalanceList balancesData={balancesData} />
+      </div>
     </section>
   );
 };

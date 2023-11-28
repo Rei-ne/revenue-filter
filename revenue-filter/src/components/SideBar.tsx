@@ -5,7 +5,7 @@ import icon4 from "../assets/icons/SideBarIcons/bar-4.svg";
 
 const SideBar = () => {
   return (
-    <div className="h-screen">
+    <div className="hidden md:flex h-screen">
       <ul className="text-black h-fit w-fit absolute top-1/2 left-0 border rounded-full p-2">
         <li className="p-1 hover:cursor-pointer">
           <img src={icon1} alt="" />

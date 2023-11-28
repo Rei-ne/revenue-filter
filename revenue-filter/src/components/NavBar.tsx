@@ -52,14 +52,18 @@ const NavBar = () => {
     <nav>
       {/* desktop nav */}
 
-      <div className="text-black hidden md:h-16 md:flex md:flex-row justify-evenly md:justify-between items-center w-full border rounded-full">
+      <div className="text-black hidden md:h-16 md:flex md:flex-row justify-evenly md:justify-between items-center w-full border border-t-0 rounded-full">
         {/* Navbar content */}
-        <img src={logo} alt="mainstack-logo" className="px-5" />
+        <img
+          src={logo}
+          alt="mainstack-logo"
+          className="px-5 hover:cursor-pointer"
+        />
         <ul className="flex space-x-4 pr-8">
           {NavItems.map((navItem) => (
             <li
               key={navItem.id}
-              className="flex p-3 items-center gap-1 text-sm"
+              className="hover:cursor-pointer flex p-3 items-center gap-1 text-sm"
               style={getNavItemStyles(navItem.id)}
             >
               <img src={navItem.iconImg} alt={navItem.title}></img>{" "}
@@ -68,9 +72,9 @@ const NavBar = () => {
           ))}
         </ul>
         <div className="flex items-center justify-between w-fit gap-4">
-          <img src={bell} alt="bell-icon" />
-          <img src={chat} alt="chat-icon" />
-          <div className="flex bg-gray-100 rounded-full mx-3 items-center justify-center p-0.5 ">
+          <img className="hover:cursor-pointer" src={bell} alt="bell-icon" />
+          <img className="hover:cursor-pointer" src={chat} alt="chat-icon" />
+          <div className="hover:cursor-pointer flex bg-gray-100 rounded-full mx-3 items-center justify-center p-0.5 ">
             <p className="text-xs text-center bg-black rounded-full p-2 text-white m-1 ">
               OJ
             </p>
@@ -80,10 +84,10 @@ const NavBar = () => {
       </div>
 
       {/* mobile nav */}
-      <div className="text-black h-52 md:hidden flex flex-col md:flex-row  justify-evenly md:justify-between items-center w-screen border rounded-full">
+      <div className="text-black h-52 md:hidden flex flex-col md:flex-row  justify-evenly md:justify-between items-center w-full border rounded-full border-t-0">
         {/* Navbar content */}
         <img src={logo} alt="mainstack-logo" className="px-5" />
-        <ul className="flex space-x-4 pr-4 flex-wrap items-center justify-center">
+        <ul className="flex space-x-4 pr-4 flex-wrap items-center justify-center w-4/5">
           {NavItems.map((navItem) => (
             <li
               key={navItem.id}
@@ -95,9 +99,7 @@ const NavBar = () => {
             </li>
           ))}
         </ul>
-        <div className="flex items-center justify-center w-fit gap-4">
-          <img src={bell} alt="bell-icon" />
-          <img src={chat} alt="chat-icon" />
+        <div className="flex items-center justify-center w-fit gap-2 ">
           <div className="flex bg-gray-100 rounded-full mx-3 items-center justify-center p-0.5 ">
             <p className="text-xs text-center bg-black rounded-full p-2 text-white m-1 ">
               OJ

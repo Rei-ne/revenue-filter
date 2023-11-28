@@ -1,7 +1,10 @@
 #root {
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  place-items: center;
 }
 @font-face {
   font-family: "Degular";
@@ -17,4 +20,35 @@
   font-family: "DegularThin";
   src: url("./assets/fonts/Degular/DegularDemo-Thin.woff") format("woff");
   font-weight: light;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media screen and (max-width: 1200px) {
+  .app-container {
+    width: 100%;
+  }
+}
+/* Scroll bar */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: white;
 }
