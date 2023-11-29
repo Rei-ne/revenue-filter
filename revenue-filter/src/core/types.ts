@@ -9,15 +9,16 @@ export type Metadata = {
 
   export type ApiResponse = {
     amount: number;
-    metadata: Metadata;
+    metadata?: Metadata;
     payment_reference: string;
     status: string;
     type: string;
     date: string;
+
   };
 
   export type TransactionResponse = {
-    Transactions: ApiResponse[];
+    TransactionsData: ApiResponse[];
   };
 
-  export type TransactionSort = 'status' | 'priceAsc' | 'priceDesc';
+  export type TransactionSort = 'status' ;

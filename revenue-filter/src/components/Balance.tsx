@@ -68,7 +68,7 @@ const Balance = () => {
   return (
     <section className="flex flex-col md:flex-row h-[400px] mt-6 md:mt-2 relative w-full">
       <div className="p-8 w-full md:w-1/2 lg:w-3/5 md:h-1/2 relative flex flex-col items-center md:items-start">
-        <div className="flex flex-col items-center text-left justify-center md:h-full w-full md:pl-4  md:ml-20 md:flex-row md:items-start ">
+        <div className="flex flex-col items-center text-left justify-center md:h-full w-full md:pl-4  md:ml-0 md:flex-row md:items-start ">
           <div>
             <p className="text-sm font-DegularThin ">Available Balance</p>
             {balance ? (
@@ -76,7 +76,7 @@ const Balance = () => {
                 USD {balance}
               </h2>
             ) : (
-              <p> Loading</p>
+              <p> Loading...</p>
             )}
           </div>
           <div className="w-full md:w-1/2 lg:w-1/2 h-16 flex  items-center justify-center  mr-2">
@@ -86,7 +86,7 @@ const Balance = () => {
           </div>
         </div>
       </div>
-      <div className="md:h-1/2 border w-full md:w-2/3 md:absolute md:bottom-0 ">
+      <div className="md:h-1/2 border w-full md:w-3/5 md:absolute md:bottom-0 md:ml-16 ">
         <h2>CHART</h2>
       </div>
       <div className="w-full flex items-center justify-center">

@@ -16,8 +16,8 @@ function App({ TransactionsData }: { TransactionsData: ApiResponse[] }) {
       <div className="flex flex-col flex-1">
         <NavBar />
         <Balance />
+        <Transactions TransactionsData={TransactionsData} />
       </div>
-      <Transactions TransactionsData={TransactionsData} />
     </section>
   );
 }
