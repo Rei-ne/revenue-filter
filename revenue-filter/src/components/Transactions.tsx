@@ -117,8 +117,8 @@ const Transactions = () => {
   };
   return (
     <section className="mt-6 w-full px-8 md:px-16 min-h-[400px] self-center  relative">
-      <div className="flex justify-between  w-full">
-        <div className="text-left  w-1/2">
+      <div className="flex items-center justify-between  w-full">
+        <div className="text-left md:px-4  w-1/2">
           <h1 className="Degular text-base md:text-xl font-extrabold">
             {total} Transactions
           </h1>
@@ -128,12 +128,12 @@ const Transactions = () => {
               : "Your transactions for all time"}
           </p>
         </div>
-        <aside className="flex md:w-1/3 items-center justify-center gap-4">
+        <aside className="flex flex-col md:flex-row w-fit md:w-1/3 items-center justify-center gap-4">
           <button
             onClick={() => {
               setOpenFilter(true);
             }}
-            className="text-center border flex items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm md:w-1/2"
+            className="text-center border flex items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm w-[100px] md:w-1/2"
           >
             Filter
             <span className="text-white bg-black mx-2 rounded-full px-1 text-xs">
@@ -142,7 +142,7 @@ const Transactions = () => {
             <img src={expand} alt="expand-button" />
           </button>
 
-          <button className="border flex  items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm md:w-1/2">
+          <button className="border flex  items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm w-[100px] md:w-1/2">
             Export List <img src={download} alt="more-button" />
           </button>
         </aside>
@@ -166,12 +166,20 @@ const Transactions = () => {
           ))}
         </div>
       ) : (
-        <div>
-          <img src={receipt} alt="" />
-          <h3>No transactions available</h3>
-          <p>Change your filters or add new transactions</p>
+        <div className="mx-auto w-1/2 flex flex-col items-center justify-center gap-2 text-left lg:w-1/4 lg:gap-4">
+          <img
+            className="border self-start rounded-lg bg-gray-200 px-1"
+            src={receipt}
+            alt=""
+          />
+          <h3 className="font-bold text-lg">
+            No matching transaction found for the selected filter
+          </h3>
+          <p className="text-gray-400 text-xs">
+            Change your filters to see more results, or add a new product
+          </p>
           <button
-            className="bg-white text-black font-bold py-2 px-4 rounded-full border"
+            className="bg-gray-200 text-black font-bold py-2 px-4 rounded-full border self-start"
             onClick={() => {
               setFilteredTransactions([...transactionsData]);
               setSelectedDays(7);
@@ -179,7 +187,7 @@ const Transactions = () => {
               setOpenFilter(false);
             }}
           >
-            Clear
+            Clear Filter
           </button>
         </div>
       )}
@@ -228,7 +236,7 @@ const TransactionFilter: React.FC<{
   };
 
   return (
-    <div className="w-full h-[500px] z-10 bg-gray-300 bg-opacity-80 absolute top-0 right-0">
+    <div className="w-full h-[600px] z-10 bg-gray-300 bg-opacity-80 absolute top-0 right-0">
       <div className="border w-full md:w-[350px] h-full float-right bg-white rounded-lg relative">
         <div className="flex items-center justify-between px-4 my-4">
           <h2 className="font-bold text-lg">Filter</h2>
@@ -500,6 +508,7 @@ const TransactionFilter: React.FC<{
             className="bg-black w-1/2 text-white font-bold py-2 px-4 rounded-full"
             onClick={() => {
               if (startDate && endDate) handleApplyFilter(startDate, endDate);
+              else alert("Please select a date range");
             }}
           >
             Apply

@@ -83,7 +83,7 @@ const NavBar = () => {
       </div>
 
       {/* mobile nav */}
-      <div className="text-black h-52 md:hidden flex flex-col md:flex-row  justify-evenly md:justify-between items-center w-full border rounded-full border-t-0">
+      <div className="text-black h-52 md:hidden flex flex-col md:flex-row  justify-evenly md:justify-between items-center w-full border rounded-sm border-t-0">
         {/* Navbar content */}
         <img src={logo} alt="mainstack-logo" className="px-5" />
         <ul className="flex space-x-4 pr-4 flex-wrap items-center justify-center w-4/5">
