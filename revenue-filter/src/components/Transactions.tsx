@@ -542,28 +542,30 @@ const TransactionCard: React.FC<{ transaction: ApiResponse }> = ({
   };
 
   return (
-    <div className="w-full flex justify-between items-center text-left border my-2">
-      <div className="w-10">
-        {transactionType === "withdrawal" ? (
-          <img src={sent} alt="Sent" />
-        ) : (
-          <img src={received} alt="Received" />
-        )}
-      </div>
-      <div className="flex items-start  flex-col">
-        {metadata ? (
-          <div>
-            <p className="text-sm">{transaction.metadata?.product_name}</p>
-            <p className="text-xs text-gray-400">
-              {transaction.metadata?.name}
-            </p>
-          </div>
-        ) : (
-          <div>
-            <p className="text-sm">{transaction.type}</p>
-            <p className="text-xs text-green-500">{transaction.status}</p>
-          </div>
-        )}
+    <div className="w-full flex justify-between items-center text-left  my-4">
+      <div className="flex items-center justify-center">
+        <div className="w-18 h-18">
+          {transactionType === "withdrawal" ? (
+            <img src={sent} alt="Sent" />
+          ) : (
+            <img src={received} alt="Received" />
+          )}
+        </div>
+        <div className="flex items-start p-2 flex-col">
+          {metadata ? (
+            <div className="w-full text-left">
+              <p className="text-sm">{transaction.metadata?.product_name}</p>
+              <p className="text-xs text-gray-400">
+                {transaction.metadata?.name}
+              </p>
+            </div>
+          ) : (
+            <div>
+              <p className="text-sm">{transaction.type}</p>
+              <p className="text-xs text-green-500">{transaction.status}</p>
+            </div>
+          )}
+        </div>
       </div>
       <div className="text-right">
         <p className="font-bold">USD {transaction.amount}</p>
