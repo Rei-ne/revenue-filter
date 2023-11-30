@@ -1,7 +1,7 @@
 import cancel from "../assets/icons/cancel.svg";
 import download from "../assets/icons/download.svg";
-// import sent from "../assets/icons/sent.svg";
-// import received from "../assets/icons/received.svg";
+import sent from "../assets/icons/sent.svg";
+import received from "../assets/icons/received.svg";
 import receipt from "../assets/icons/receipt_long.svg";
 import expand from "../assets/icons/expand_more.svg";
 
@@ -14,11 +14,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const Transactions = () => {
   const [transactionsData, setTransactionsData] = useState<ApiResponse[]>([]);
-  const [total, setTotal] = useState<number>(7);
-  const [selectedDays, setSelectedDays] = useState<number>(7);
   const [filteredTransactions, setFilteredTransactions] = useState<
     ApiResponse[]
   >([]);
+  const [total, setTotal] = useState<number>(0);
+  const [selectedDays, setSelectedDays] = useState<number>(0);
   const [openFilter, setOpenFilter] = useState(false);
 
   useEffect(() => {
@@ -36,92 +36,15 @@ const Transactions = () => {
     fetchTransactions();
   }, [selectedDays]);
 
-  return (
-    <section className="mt-6 w-full px-8 md:px-16 min-h-[400px] self-center  relative">
-      <div className="flex justify-between  w-full">
-        <div className="text-left  w-1/2">
-          <h1 className="Degular text-base md:text-xl font-extrabold">
-            {total} Transactions
-          </h1>
-          <p className="DegularThin font-light text-gray-500 text-xs md:text-sm">
-            Your Transactions for the last {selectedDays} days
-          </p>
-        </div>
-        <aside className="flex md:w-1/3 items-center justify-center gap-4">
-          <button
-            onClick={() => {
-              setOpenFilter(true);
-            }}
-            className="text-center border flex items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm md:w-1/2"
-          >
-            Filter <img src={expand} alt="expand-button" />
-          </button>
+  useEffect(() => {
+    setTotal(filteredTransactions.length);
+  }, [filteredTransactions]);
 
-          <button className="border flex  items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm md:w-1/2">
-            Export List <img src={download} alt="more-button" />
-          </button>
-        </aside>
-      </div>
-      {openFilter && (
-        <TransactionFilter
-          transactionsData={transactionsData}
-          setOpenFilter={setOpenFilter}
-          setSelectedDays={setSelectedDays}
-          setTotal={setTotal}
-          setFilteredTransactions={setFilteredTransactions}
-        />
-      )}
+  useEffect(() => {
+    // setTotal(filteredTransactions.length);
+  }, []);
 
-      {filteredTransactions.length > 0 ? (
-        // Render filtered transactions if available
-        <div className="mt-4">
-          {filteredTransactions.map((transaction, index) => (
-            <TransactionCard key={index} transaction={transaction} />
-          ))}
-        </div>
-      ) : // Render a message when no filtered transactions are available
-      filteredTransactions.length == 0 && transactionsData.length == 0 ? (
-        <div>
-          <img src={receipt} alt="" />
-          <h3>No transactions available</h3>
-          <p>Change your filters or add new transactions</p>
-          <button className="bg-white text-black font-bold py-2 px-4 rounded-full border">
-            Clear
-          </button>
-        </div>
-      ) : (
-        transactionsData.length > 0 && (
-          <div className="mt-4">
-            {transactionsData.map((transaction, index) => (
-              <TransactionCard key={index} transaction={transaction} />
-            ))}
-          </div>
-        )
-      )}
-    </section>
-  );
-};
-const TransactionFilter: React.FC<{
-  setOpenFilter: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedDays: React.Dispatch<React.SetStateAction<number>>;
-  setTotal: React.Dispatch<React.SetStateAction<number>>;
-  setFilteredTransactions: React.Dispatch<React.SetStateAction<ApiResponse[]>>;
-  transactionsData: any[];
-}> = ({
-  setOpenFilter,
-  setSelectedDays,
-  transactionsData,
-  setFilteredTransactions,
-  setTotal,
-}) => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [transactionType, setTransactionType] = useState<string[]>([]);
-  const [transactionStatus, setTransactionStatus] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
-
-  const handleApplyFilter = () => {
+  const handleApplyFilter = (startDate: Date, endDate: Date) => {
     const filtered = transactionsData.filter((transaction) => {
       const transactionDate = new Date(transaction.date);
       const isWithinDateRange =
@@ -146,52 +69,32 @@ const TransactionFilter: React.FC<{
     // Set filtered transactions of ApiResponse[] type
     setFilteredTransactions(filtered);
 
-    // Set filtered transactions of ApiResponse[] type
-    setFilteredTransactions(filtered);
-
     // Update total count based on filtered transactions
     setTotal(filtered.length);
 
     setOpenFilter(!setOpenFilter);
   };
   // clear selection
-  const handleClearFilter = () => {
-    const clearStatePromises = [
-      setEndDate(null),
-      setStartDate(null),
-      setTransactionType([]),
-      setTransactionStatus([]),
-      setFilteredTransactions([]),
-      setSelectedDays(7),
-      setTotal(7),
-    ];
-
-    // Execute all state-setting functions and then call setOpenFilter
-    Promise.all(clearStatePromises)
-      .then(() => {
-        setOpenFilter(!setOpenFilter);
-      })
-      .catch((error) => {
-        console.error("Error clearing filters:", error);
-      });
+  const handleClearFilter = (
+    setEndDate: (value: Date | null) => void,
+    setStartDate: (value: Date | null) => void,
+    setTransactionType: (value: string[]) => void,
+    setTransactionStatus: (value: string[]) => void
+  ) => {
+    setEndDate(null);
+    setStartDate(null);
+    setTransactionType([]);
+    setTransactionStatus([]);
+    setFilteredTransactions([...transactionsData]);
+    setSelectedDays(7);
+    // setTotal(7);
+    setOpenFilter(!setOpenFilter);
   };
-
-  const handleTransactionTypeChange = (value: string) => {
-    if (transactionType.includes(value)) {
-      setTransactionType(transactionType.filter((type) => type !== value));
-    } else {
-      setTransactionType([...transactionType, value]);
-    }
-  };
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-  const toggleDropdown2 = () => {
-    setIsStatusOpen(!isStatusOpen);
-  };
-
-  const handleTransactionStatusChange = (selectedStatus: string) => {
+  const handleTransactionStatusChange = (
+    selectedStatus: string,
+    transactionStatus: string[],
+    setTransactionStatus: (value: string[]) => void
+  ) => {
     if (transactionStatus.includes(selectedStatus)) {
       setTransactionStatus(
         transactionStatus.filter((status) => status !== selectedStatus)
@@ -199,6 +102,126 @@ const TransactionFilter: React.FC<{
     } else {
       setTransactionStatus([...transactionStatus, selectedStatus]);
     }
+  };
+  const handleTransactionTypeChange = (
+    value: string,
+    transactionType: string[],
+    setTransactionType: (value: string[]) => void
+  ) => {
+    if (transactionType.includes(value)) {
+      setTransactionType(transactionType.filter((type) => type !== value));
+    } else {
+      setTransactionType([...transactionType, value]);
+    }
+  };
+  return (
+    <section className="mt-6 w-full px-8 md:px-16 min-h-[400px] self-center  relative">
+      <div className="flex justify-between  w-full">
+        <div className="text-left  w-1/2">
+          <h1 className="Degular text-base md:text-xl font-extrabold">
+            {total} Transactions
+          </h1>
+          <p className="DegularThin font-light text-gray-500 text-xs md:text-sm">
+            Your Transactions for the last {selectedDays} days
+          </p>
+        </div>
+        <aside className="flex md:w-1/3 items-center justify-center gap-4">
+          <button
+            onClick={() => {
+              setOpenFilter(true);
+            }}
+            className="text-center border flex items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm md:w-1/2"
+          >
+            Filter
+            <span className="text-white bg-black mx-2 rounded-full px-1 text-xs">
+              {total}
+            </span>
+            <img src={expand} alt="expand-button" />
+          </button>
+
+          <button className="border flex  items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm md:w-1/2">
+            Export List <img src={download} alt="more-button" />
+          </button>
+        </aside>
+      </div>
+      {openFilter && (
+        <TransactionFilter
+          handleClearFilter={handleClearFilter}
+          handleApplyFilter={handleApplyFilter}
+          handleTransactionStatusChange={handleTransactionStatusChange}
+          handleTransactionTypeChange={handleTransactionTypeChange}
+          setOpenFilter={(value: boolean) => {
+            setOpenFilter(value);
+          }}
+        />
+      )}
+
+      {filteredTransactions.length > 0 ? (
+        <div className="mt-4">
+          {filteredTransactions.map((transaction, index) => (
+            <TransactionCard key={index} transaction={transaction} />
+          ))}
+        </div>
+      ) : (
+        <div>
+          <img src={receipt} alt="" />
+          <h3>No transactions available</h3>
+          <p>Change your filters or add new transactions</p>
+          <button
+            className="bg-white text-black font-bold py-2 px-4 rounded-full border"
+            onClick={() => {
+              setFilteredTransactions([...transactionsData]);
+              setSelectedDays(7);
+              // setTotal(7);
+              setOpenFilter(false);
+            }}
+          >
+            Clear
+          </button>
+        </div>
+      )}
+    </section>
+  );
+};
+const TransactionFilter: React.FC<{
+  handleClearFilter: (
+    setEndDate: (value: Date | null) => void,
+    setStartDate: (value: Date | null) => void,
+    setTransactionType: (value: string[]) => void,
+    setTransactionStatus: (value: string[]) => void
+  ) => void;
+  handleApplyFilter: (startDate: Date, endDate: Date) => void;
+  handleTransactionStatusChange: (
+    selectedStatus: string,
+    transactionStatus: string[],
+    setTransactionStatus: (value: string[]) => void
+  ) => void;
+  handleTransactionTypeChange: (
+    value: string,
+    transactionType: string[],
+    setTransactionType: (value: string[]) => void
+  ) => void;
+  setOpenFilter: (value: boolean) => void;
+}> = ({
+  handleClearFilter,
+  handleApplyFilter,
+  handleTransactionStatusChange,
+  handleTransactionTypeChange,
+  setOpenFilter,
+}) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
+
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [transactionType, setTransactionType] = useState<string[]>([]);
+  const [transactionStatus, setTransactionStatus] = useState<string[]>([]);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+  const toggleDropdown2 = () => {
+    setIsStatusOpen(!isStatusOpen);
   };
 
   return (
@@ -279,7 +302,11 @@ const TransactionFilter: React.FC<{
                       value="Store Transactions"
                       checked={transactionType.includes("Store Transactions")}
                       onChange={() =>
-                        handleTransactionTypeChange("Store Transactions")
+                        handleTransactionTypeChange(
+                          "Store Transactions",
+                          transactionType,
+                          setTransactionType
+                        )
                       }
                       className="color-black"
                     />
@@ -290,7 +317,13 @@ const TransactionFilter: React.FC<{
                       type="checkbox"
                       value="Get Tipped"
                       checked={transactionType.includes("Get Tipped")}
-                      onChange={() => handleTransactionTypeChange("Get Tipped")}
+                      onChange={() =>
+                        handleTransactionTypeChange(
+                          "Get Tipped",
+                          transactionType,
+                          setTransactionType
+                        )
+                      }
                       className="color-black"
                     />
                     Get Tipped
@@ -301,7 +334,11 @@ const TransactionFilter: React.FC<{
                       value="Withdrawals"
                       checked={transactionType.includes("Withdrawals")}
                       onChange={() =>
-                        handleTransactionTypeChange("Withdrawals")
+                        handleTransactionTypeChange(
+                          "Withdrawals",
+                          transactionType,
+                          setTransactionType
+                        )
                       }
                       className="color-black"
                     />
@@ -314,7 +351,11 @@ const TransactionFilter: React.FC<{
                       value="Chargebacks"
                       checked={transactionType.includes("Chargebacks")}
                       onChange={() =>
-                        handleTransactionTypeChange("Chargebacks")
+                        handleTransactionTypeChange(
+                          "Chargebacks",
+                          transactionType,
+                          setTransactionType
+                        )
                       }
                       className="color-black"
                     />
@@ -326,7 +367,13 @@ const TransactionFilter: React.FC<{
                       type="checkbox"
                       value="Cashbacks"
                       checked={transactionType.includes("Cashbacks")}
-                      onChange={() => handleTransactionTypeChange("Cashbacks")}
+                      onChange={() =>
+                        handleTransactionTypeChange(
+                          "Cashbacks",
+                          transactionType,
+                          setTransactionType
+                        )
+                      }
                       className="color-black"
                     />
                     Cashbacks
@@ -338,7 +385,11 @@ const TransactionFilter: React.FC<{
                       value="Refer & Earn"
                       checked={transactionType.includes("Refer & Earn")}
                       onChange={() =>
-                        handleTransactionTypeChange("Refer & Earn")
+                        handleTransactionTypeChange(
+                          "Refer & Earn",
+                          transactionType,
+                          setTransactionType
+                        )
                       }
                       className="color-black"
                     />
@@ -381,7 +432,11 @@ const TransactionFilter: React.FC<{
                       value="successful"
                       checked={transactionStatus.includes("Successful")}
                       onChange={() => {
-                        handleTransactionStatusChange("Successful");
+                        handleTransactionStatusChange(
+                          "Successful",
+                          transactionStatus,
+                          setTransactionStatus
+                        );
                       }}
                       className="color-black"
                     />
@@ -393,7 +448,11 @@ const TransactionFilter: React.FC<{
                       value="pending"
                       checked={transactionStatus.includes("Pending")}
                       onChange={() => {
-                        handleTransactionStatusChange("Pending");
+                        handleTransactionStatusChange(
+                          "Pending",
+                          transactionStatus,
+                          setTransactionStatus
+                        );
                       }}
                       className="color-black"
                     />
@@ -405,7 +464,11 @@ const TransactionFilter: React.FC<{
                       value="failed"
                       checked={transactionStatus.includes("Failed")}
                       onChange={() => {
-                        handleTransactionStatusChange("Failed");
+                        handleTransactionStatusChange(
+                          "Failed",
+                          transactionStatus,
+                          setTransactionStatus
+                        );
                       }}
                       className="color-black"
                     />
@@ -419,13 +482,22 @@ const TransactionFilter: React.FC<{
         <div className="flex gap-4 w-full items-center justify-center px-4  absolute bottom-2">
           <button
             className="bg-white w-1/2 text-black font-bold py-2 px-4 rounded-full border"
-            onClick={handleClearFilter}
+            onClick={() =>
+              handleClearFilter(
+                setEndDate,
+                setStartDate,
+                setTransactionType,
+                setTransactionStatus
+              )
+            }
           >
             Clear
           </button>
           <button
             className="bg-black w-1/2 text-white font-bold py-2 px-4 rounded-full"
-            onClick={handleApplyFilter}
+            onClick={() => {
+              if (startDate && endDate) handleApplyFilter(startDate, endDate);
+            }}
           >
             Apply
           </button>
@@ -439,15 +511,60 @@ const TransactionCard: React.FC<{ transaction: ApiResponse }> = ({
 }) => {
   useEffect(() => {}, [transaction]);
 
+  const transactionType = transaction.type;
+  const metadata = transaction.metadata;
+  // Function to format the date
+  const formatDate = (dateString: string): string => {
+    const months: string[] = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const dateObj: Date = new Date(dateString);
+    const month: string = months[dateObj.getMonth()];
+    const day: number = dateObj.getDate();
+    const year: number = dateObj.getFullYear();
+
+    return `${month} ${day < 10 ? "0" + day : day}, ${year}`;
+  };
+
   return (
-    <div className="w-full flex justify-between items-center text-left">
-      <div>
-        <p className="text-sm">{transaction.metadata?.product_name}</p>
-        <p className="text-xs text-gray-400">{transaction.metadata?.name}</p>
+    <div className="w-full flex justify-between items-center text-left border my-2">
+      <div className="w-10">
+        {transactionType === "withdrawal" ? (
+          <img src={sent} alt="Sent" />
+        ) : (
+          <img src={received} alt="Received" />
+        )}
+      </div>
+      <div className="flex items-start border flex-col">
+        {metadata ? (
+          <div>
+            <p className="text-sm">{transaction.metadata?.product_name}</p>
+            <p className="text-xs text-gray-400">
+              {transaction.metadata?.name}
+            </p>
+          </div>
+        ) : (
+          <div>
+            <p className="text-sm">{transaction.type}</p>
+            <p className="text-xs text-green-500">{transaction.status}</p>
+          </div>
+        )}
       </div>
       <div className="text-right">
         <p className="font-bold">USD {transaction.amount}</p>
-        <p className="text-xs text-gray-400">{transaction.date}</p>
+        <p className="text-xs text-gray-400">{formatDate(transaction.date)}</p>
       </div>
     </div>
   );
