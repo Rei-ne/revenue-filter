@@ -18,7 +18,7 @@
 }
 @font-face {
   font-family: "DegularThin";
-  src: url("./assets/fonts/Degular/DegularDemo-Thin.woff") format("woff");
+  src: url("./assets/fonts/Degular/DegularDemo-Light.woff") format("woff");
   font-weight: light;
 }
 
@@ -51,4 +51,24 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: white;
+}
+input[type="checkbox"].color-black {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23fff"%3E%3Cpath d="M9 16.17l-3.59-3.58L4 14l5 5 10-10-1.41-1.42z"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90%;
+}
+
+input[type="checkbox"].color-black:checked {
+  background-color: #000;
 }

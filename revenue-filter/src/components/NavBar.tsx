@@ -49,10 +49,9 @@ const NavBar = () => {
     return {};
   };
   return (
-    <nav>
+    <nav className="sticky top-0 bg-white z-20 border-none ">
       {/* desktop nav */}
-
-      <div className="text-black hidden md:h-16 md:flex md:flex-row justify-evenly md:justify-between items-center w-full border border-t-0 rounded-full">
+      <div className="text-black  hidden md:h-16 md:flex md:flex-row justify-evenly md:justify-between items-center w-full border border-t-0 rounded-full">
         {/* Navbar content */}
         <img
           src={logo}
