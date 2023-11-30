@@ -2,6 +2,9 @@ import info from "../assets/icons/info.svg";
 import { useEffect, useState } from "react";
 import { apiClient } from "../core/api";
 
+import { LineChart, Line } from "recharts";
+const data = [{ name: "Page A", uv: 400, pv: 2400, amt: 2400 }];
+
 const BalanceList: React.FC<{ balancesData: BalanceItem[] }> = ({
   balancesData,
 }) => {
@@ -89,7 +92,9 @@ const Balance = () => {
         </div>
       </div>
       <div className="md:h-1/2 border w-full md:w-3/5 md:absolute md:bottom-0 md:ml-16 ">
-        <h2>CHART</h2>
+        <LineChart width={400} height={400} data={data}>
+          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+        </LineChart>
       </div>
       <div className="w-full flex items-center justify-center">
         <BalanceList balancesData={balancesData} />
