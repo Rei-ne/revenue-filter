@@ -34,7 +34,7 @@ const Transactions = () => {
     }
 
     fetchTransactions();
-  }, [selectedDays]);
+  }, []);
 
   useEffect(() => {
     setTotal(filteredTransactions.length);
@@ -42,7 +42,8 @@ const Transactions = () => {
 
   useEffect(() => {
     // setTotal(filteredTransactions.length);
-  }, []);
+    setFilteredTransactions([...transactionsData]);
+  }, [transactionsData]);
 
   const handleApplyFilter = (startDate: Date, endDate: Date) => {
     const filtered = transactionsData.filter((transaction) => {
@@ -122,7 +123,9 @@ const Transactions = () => {
             {total} Transactions
           </h1>
           <p className="DegularThin font-light text-gray-500 text-xs md:text-sm">
-            Your Transactions for the last {selectedDays} days
+            {selectedDays > 0
+              ? `Your Transactions for the last ${selectedDays} days`
+              : "Your transactions for all time"}
           </p>
         </div>
         <aside className="flex md:w-1/3 items-center justify-center gap-4">
@@ -547,7 +550,7 @@ const TransactionCard: React.FC<{ transaction: ApiResponse }> = ({
           <img src={received} alt="Received" />
         )}
       </div>
-      <div className="flex items-start border flex-col">
+      <div className="flex items-start  flex-col">
         {metadata ? (
           <div>
             <p className="text-sm">{transaction.metadata?.product_name}</p>
