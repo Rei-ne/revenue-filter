@@ -2,7 +2,7 @@ import cancel from "../assets/icons/cancel.svg";
 import download from "../assets/icons/download.svg";
 // import sent from "../assets/icons/sent.svg";
 // import received from "../assets/icons/received.svg";
-// import receipt from "../assets/icons/receipt_long.svg";
+import receipt from "../assets/icons/receipt_long.svg";
 import expand from "../assets/icons/expand_more.svg";
 
 import { useEffect, useState } from "react";
@@ -14,7 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const Transactions = () => {
   const [transactionsData, setTransactionsData] = useState<ApiResponse[]>([]);
-  const [total, setTotal] = useState<number>(0);
+  const [total, setTotal] = useState<number>(7);
   const [selectedDays, setSelectedDays] = useState<number>(7);
   const [filteredTransactions, setFilteredTransactions] = useState<
     ApiResponse[]
@@ -28,14 +28,13 @@ const Transactions = () => {
         const responseData = response.data;
 
         setTransactionsData(responseData);
-        setTotal(responseData.length); // Set total number of transactions
       } catch (error) {
         console.error(error);
       }
     }
-    // setTotal(filteredTransactions.length);
+
     fetchTransactions();
-  }, [selectedDays, total]);
+  }, [selectedDays]);
 
   return (
     <section className="mt-6 w-full px-8 md:px-16 min-h-[400px] self-center  relative">
@@ -48,17 +47,17 @@ const Transactions = () => {
             Your Transactions for the last {selectedDays} days
           </p>
         </div>
-        <aside className="flex">
+        <aside className="flex md:w-1/3 items-center justify-center gap-4">
           <button
             onClick={() => {
               setOpenFilter(true);
             }}
-            className="text-center border flex items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm"
+            className="text-center border flex items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm md:w-1/2"
           >
             Filter <img src={expand} alt="expand-button" />
           </button>
 
-          <button className="border flex  items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm">
+          <button className="border flex  items-center justify-center bg-gray-200 p-2 rounded-full text-xs md:text-sm md:w-1/2">
             Export List <img src={download} alt="more-button" />
           </button>
         </aside>
@@ -72,11 +71,23 @@ const Transactions = () => {
           setFilteredTransactions={setFilteredTransactions}
         />
       )}
+
       {filteredTransactions.length > 0 ? (
+        // Render filtered transactions if available
         <div className="mt-4">
           {filteredTransactions.map((transaction, index) => (
             <TransactionCard key={index} transaction={transaction} />
           ))}
+        </div>
+      ) : // Render a message when no filtered transactions are available
+      filteredTransactions.length == 0 && transactionsData.length == 0 ? (
+        <div>
+          <img src={receipt} alt="" />
+          <h3>No transactions available</h3>
+          <p>Change your filters or add new transactions</p>
+          <button className="bg-white text-black font-bold py-2 px-4 rounded-full border">
+            Clear
+          </button>
         </div>
       ) : (
         transactionsData.length > 0 && (
@@ -87,14 +98,6 @@ const Transactions = () => {
           </div>
         )
       )}
-
-      {/* {filteredTransactions.length === 0 && (
-        <div>
-          <img src={receipt} alt="" />
-          <h3>No transactions available</h3>
-          <p>Change your filters or add new transactions</p>
-        </div>
-      )} */}
     </section>
   );
 };
@@ -142,10 +145,16 @@ const TransactionFilter: React.FC<{
 
     // Set filtered transactions of ApiResponse[] type
     setFilteredTransactions(filtered);
-    setTotal(transactionsData.length);
+
+    // Set filtered transactions of ApiResponse[] type
+    setFilteredTransactions(filtered);
+
+    // Update total count based on filtered transactions
+    setTotal(filtered.length);
+
     setOpenFilter(!setOpenFilter);
   };
-
+  // clear selection
   const handleClearFilter = () => {
     const clearStatePromises = [
       setEndDate(null),
@@ -153,6 +162,8 @@ const TransactionFilter: React.FC<{
       setTransactionType([]),
       setTransactionStatus([]),
       setFilteredTransactions([]),
+      setSelectedDays(7),
+      setTotal(7),
     ];
 
     // Execute all state-setting functions and then call setOpenFilter
@@ -191,7 +202,7 @@ const TransactionFilter: React.FC<{
   };
 
   return (
-    <div className=" w-full h-full z-10 bg-gray-300 bg-opacity-80 absolute top-0 right-0">
+    <div className="w-full h-[500px] z-10 bg-gray-300 bg-opacity-80 absolute top-0 right-0">
       <div className="border w-full md:w-[350px] h-full float-right bg-white rounded-lg relative">
         <div className="flex items-center justify-between px-4 my-4">
           <h2 className="font-bold text-lg">Filter</h2>
