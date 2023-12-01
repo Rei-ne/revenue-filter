@@ -91,7 +91,7 @@ const Balance = () => {
           </div>
         </div>
       </div>
-      <div className="md:h-1/2 border w-full md:w-3/5 md:absolute md:bottom-0 md:ml-16 ">
+      <div className="none md:block md:h-1/2 border w-full md:w-3/5 md:absolute md:bottom-0 md:ml-16 ">
         <LineChart width={400} height={400} data={data}>
           <Line type="monotone" dataKey="uv" stroke="#8884d8" />
         </LineChart>
