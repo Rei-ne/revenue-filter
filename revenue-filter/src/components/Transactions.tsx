@@ -116,8 +116,8 @@ const Transactions = () => {
     }
   };
   return (
-    <section className="mt-6 w-full px-8 md:px-16 min-h-[400px] self-center  relative">
-      <div className="flex items-center justify-between  w-full">
+    <section className="mt-6 w-full px-4 md:px-16 min-h-[400px] self-center  relative">
+      <div className="flex items-center justify-between  w-full px-2 md:px-0">
         <div className="text-left md:px-4  w-1/2">
           <h1 className="Degular text-base md:text-xl font-extrabold">
             {total} Transactions
@@ -128,7 +128,7 @@ const Transactions = () => {
               : "Your transactions for all time"}
           </p>
         </div>
-        <aside className="flex flex-col md:flex-row w-fit md:w-1/3 items-center justify-center gap-4">
+        <aside className="flex flex-col md:flex-row w-fit md:w-1/2 lg:w-1/3 items-center justify-center gap-4 ml-8 md:ml-0">
           <button
             onClick={() => {
               setOpenFilter(true);
@@ -158,39 +158,40 @@ const Transactions = () => {
           }}
         />
       )}
-
-      {filteredTransactions.length > 0 ? (
-        <div className="mt-4">
-          {filteredTransactions.map((transaction, index) => (
-            <TransactionCard key={index} transaction={transaction} />
-          ))}
-        </div>
-      ) : (
-        <div className="mx-auto w-1/2 flex flex-col items-center justify-center gap-2 text-left lg:w-1/4 lg:gap-4">
-          <img
-            className="border self-start rounded-lg bg-gray-200 px-1"
-            src={receipt}
-            alt=""
-          />
-          <h3 className="font-bold text-lg">
-            No matching transaction found for the selected filter
-          </h3>
-          <p className="text-gray-400 text-xs">
-            Change your filters to see more results, or add a new product
-          </p>
-          <button
-            className="bg-gray-200 text-black font-bold py-2 px-4 rounded-full border self-start"
-            onClick={() => {
-              setFilteredTransactions([...transactionsData]);
-              setSelectedDays(7);
-              // setTotal(7);
-              setOpenFilter(false);
-            }}
-          >
-            Clear Filter
-          </button>
-        </div>
-      )}
+      <div className=" w-full px-2">
+        {filteredTransactions.length > 0 ? (
+          <div className="mt-4">
+            {filteredTransactions.map((transaction, index) => (
+              <TransactionCard key={index} transaction={transaction} />
+            ))}
+          </div>
+        ) : (
+          <div className="mx-auto w-1/2 flex flex-col items-center justify-center gap-2 text-left lg:w-1/4 lg:gap-4">
+            <img
+              className="border self-start rounded-lg bg-gray-200 px-1"
+              src={receipt}
+              alt=""
+            />
+            <h3 className="font-bold text-lg">
+              No matching transaction found for the selected filter
+            </h3>
+            <p className="text-gray-400 text-xs">
+              Change your filters to see more results, or add a new product
+            </p>
+            <button
+              className="bg-gray-200 text-black font-bold py-2 px-4 rounded-full border self-start"
+              onClick={() => {
+                setFilteredTransactions([...transactionsData]);
+                setSelectedDays(7);
+                // setTotal(7);
+                setOpenFilter(false);
+              }}
+            >
+              Clear Filter
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };

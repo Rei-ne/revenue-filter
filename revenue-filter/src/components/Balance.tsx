@@ -71,8 +71,8 @@ const Balance = () => {
   return (
     <section className="flex flex-col md:flex-row h-[400px] mt-6 md:mt-2 relative w-full">
       <div className="p-8 w-full md:w-3/5  md:h-1/2 relative flex flex-col items-center md:items-start">
-        <div className="flex flex-col items-center text-left justify-center md:h-full w-full md:pl-4 md:flex-row md:items-start md:ml-8 ">
-          <div>
+        <div className="flex flex-col items-center text-left justify-center md:h-full w-full md:pl-4 md:flex-row md:items-start md:ml-8">
+          <div className="md:w-28 lg:w-fit">
             <p className="text-sm font-DegularThin text-gray-500 ">
               Available Balance
             </p>
@@ -91,11 +91,7 @@ const Balance = () => {
           </div>
         </div>
       </div>
-      <div className="none md:block md:h-1/2 border w-full md:w-3/5 md:absolute md:bottom-0 md:ml-16 ">
-        <LineChart width={400} height={400} data={data}>
-          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-        </LineChart>
-      </div>
+      <div className="hidden md:block md:h-1/2 border w-full md:w-3/5 md:absolute md:bottom-0 md:ml-16 "></div>
       <div className="w-full flex items-center justify-center">
         <BalanceList balancesData={balancesData} />
       </div>
